@@ -10,7 +10,7 @@ In this guide, we’ll take a simple **Go + Echo + PostgreSQL** URL shortener ap
 
 ---
 
-## What is Keploy (in simple words)
+## What is Keploy (in simple words) 🤔
 
 Keploy is a testing tool that:
 - records real API traffic
@@ -21,7 +21,7 @@ Later, you can replay those tests **without running the database**.
 
 ---
 
-## Prerequisites
+## Prerequisites ✅
 
 - Go (1.16 or higher)
 - Docker (to run Postgre instance)
@@ -105,6 +105,14 @@ In a new terminal, we’ll use Keploy to record our API interactions.
 ```bash
 sudo -E PATH=$PATH keploy record -c "./echo-psql-url-shortener"
 ```
+The terminal will look like:
+
+<img
+  src="/images/keploystart.png"
+  alt="Update postgres host in main.go"
+  width="700"
+/>
+
 
 What's happening here:
 - Keploy starts your app
@@ -159,7 +167,7 @@ Both API calls are now captured by **Keploy**.
 
 ---
 
-## Step 6: Verify the recorded test cases:
+## Step 6: Verify the recorded test cases ✔️
 
 
 Stop the app and check your project directory.
@@ -168,6 +176,13 @@ You should see a new folder:
 ```bash
 keploy/
 ```
+<img
+  src="/images/directory.png"
+  alt="Update postgres host in main.go"
+  width="700"
+/>
+
+
 Inside it:
 - Recorded API Test cases
 - Mock Data
@@ -188,6 +203,15 @@ sudo -E PATH=$PATH keploy test -c "./echo-psql-url-shortener"
 > The record command occupies port `8082`, and if the port is already in use,
 > Keploy will not be able to start the application during `keploy test`.
 
+The terminal will look like:
+
+<img
+  src="/images/keployresult.png"
+  alt="Update postgres host in main.go"
+  width="700"
+/>
+
+
 What happens here:
 - Replays the recorded API calls
 - Uses mocks instead of real database
@@ -200,7 +224,7 @@ You **do not need**
 
 Your app thinks it’s talking to PostgreSQL.
 
-It’s not. Keploy is handling that.
+It’s not. Keploy is handling that.😄
 
 **Why this matters:**
 - **No more mocks**: You don't need to manually define every row for a database mock.
@@ -210,7 +234,7 @@ It’s not. Keploy is handling that.
 
 ---
 
-## Wrapping Up
+## Wrapping Up 🎉
 
 In this guide, you:
 - Ran a Go + Echo + PostgreSQL app
@@ -221,4 +245,4 @@ In this guide, you:
 
 With Keploy, you can confidently refactor your code, knowing that any regressions will be caught by the recorded tests. Plus, the lightweight nature of Keploy means you don't need a complex database setup for your CI/CD pipeline.
 
-Happy coding!
+Happy coding!😄

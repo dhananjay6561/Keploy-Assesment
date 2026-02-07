@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Source_Serif_4, Inter, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 import { Sidebar } from './components/Sidebar';
+import Image from 'next/image';
 
 const serif = Source_Serif_4({
   subsets: ['latin'],
@@ -33,12 +34,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${serif.variable} ${sans.variable} ${mono.variable} antialiased scroll-smooth`}>
-      <body className="bg-white text-zinc-900 min-h-screen flex flex-col font-serif">
+      <body className="bg-white text-zinc-900 min-h-screen flex flex-col font-sans">
         <header className="sticky top-0 z-50 w-full border-b border-zinc-200 bg-white">
-          <div className="mx-auto flex h-16 max-w-screen-xl items-center justify-between px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto flex h-16 w-full items-center justify-between px-6">
             <div className="flex items-center gap-2">
-              <div className="h-6 w-6 rounded-md bg-zinc-900" /> {/* Placeholder Logo */}
-              <span className="font-sans font-semibold text-zinc-900">Keploy Docs</span>
+              <Image src="/images/keploylogo.svg" alt="Keploy Logo" width={120} height={32} />
             </div>
             <div className="hidden items-center gap-4 text-sm text-zinc-500 sm:flex font-sans">
               <span>Read Time: 5 min</span>
@@ -49,10 +49,10 @@ export default function RootLayout({
           </div>
         </header>
 
-        <main className="flex-1 mx-auto w-full max-w-screen-xl px-4 sm:px-6 lg:px-8">
+        <main className="flex-1 w-full px-6">
           <div className="flex gap-12 py-10 lg:py-12">
             <Sidebar />
-            <article className="flex-1 max-w-prose mx-auto lg:mx-0 min-w-0 prose prose-zinc prose-lg prose-headings:font-sans prose-code:font-mono prose-pre:bg-transparent prose-pre:p-0 prose-pre:m-0">
+            <article className="flex-1 min-w-0 prose prose-zinc prose-lg prose-headings:font-sans prose-code:font-mono prose-pre:bg-transparent prose-pre:p-0 prose-pre:m-0">
               {children}
             </article>
           </div>
