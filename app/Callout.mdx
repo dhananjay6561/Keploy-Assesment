@@ -1,0 +1,19 @@
+export default function Callout({ title, link, children }) {
+  return (
+    <div style={{
+      background: "#f6edffff",
+      border: "1px solid #c3aafeff",
+      padding: "16px",
+      borderRadius: "8px",
+      margin: "24px 0"
+    }}>
+      <strong>{title}</strong>
+      <p>{children}</p>
+      <a href="https://keploy.io/docs/server/installation/" style={{ color: "#6d16f9ff", fontWeight: 600 }}>
+        👉 Go to Installation Guide
+      </a>
+    </div>
+  )
+}
+
+  Before running this sample, make sure Keploy is installed on your system.

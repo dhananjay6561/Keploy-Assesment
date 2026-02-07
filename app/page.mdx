@@ -1,0 +1,224 @@
+import Callout from './Callout.mdx'
+
+# Testing a Go + Echo + PostgreSQL App with Keploy
+
+If you’ve ever built a backend API and found  
+**“mocking your database, setting up interfaces, and manually defining expected outputs is tedious”**,  
+this tutorial is for you.
+
+In this guide, we’ll take a simple **Go + Echo + PostgreSQL** URL shortener app and use **Keploy** to automatically generate and run API test cases **without writing test code or mocks**.
+
+---
+
+## What is Keploy (in simple words)
+
+Keploy is a testing tool that:
+- records real API traffic
+- captures database interactions
+- converts them into reusable test cases and data mocks
+
+Later, you can replay those tests **without running the database**.
+
+---
+
+## Prerequisites
+
+- Go (1.16 or higher)
+- Docker (to run Postgre instance)
+- Linux
+- Keploy CLI
+```bash
+curl --silent --location "https://get.keploy.io" | bash
+```
+
+<Callout
+  title="Don’t have Keploy installed yet?"
+  link="https://keploy.io/docs/installation"
+>
+
+</Callout>
+---
+
+## Step 1: Setup the Project
+
+We’ll use an official Keploy Go sample.
+
+```bash
+git clone https://github.com/keploy/samples-go.git
+cd samples-go/echo-sql
+go mod download
+```
+We got:
+- a readymade **URL shortener** application
+- a PostgreSQL database schema
+- a Docker Compose file for easy setup
+
+---
+
+## Step 2: Start the PostgreSQL Database
+
+We’ll keep it simple by running Postgres in a Docker container.
+The Go application itself will run directly on your system.
+
+```bash
+docker-compose up postgres
+```
+At this point:
+
+- The PostgreSQL database should be running in a Docker container.
+- You can access the database using the connection details specified in the `docker-compose.yml` file.
+- The Go application is ready to connect to the database.
+
+> Since PostgreSQL is running in Docker and the app runs locally, we need one small change, we need to update the
+> `postgres` host on line 47 in `main.go` to `localhost`.
+
+<img
+  src="/images/localhost.png"
+  alt="Update postgres host in main.go"
+  width="700"
+/>
+
+---
+
+## Step 3: Run the Go Application
+
+Now that the database is set up.
+
+**Build your Go application**
+
+```bash
+go run main.go
+```
+
+You should now see a binary named:
+```bash
+echo-psql-url-shortener
+```
+---
+
+
+## Step 4: Record API Traffic with Keploy
+This is where **Keploy** enters the game.
+
+In a new terminal, we’ll use Keploy to record our API interactions.
+
+```bash
+sudo -E PATH=$PATH keploy record -c "./echo-psql-url-shortener"
+```
+
+What's happening here:
+- Keploy starts your app
+- It intercepts:
+  - incoming API requests
+  - Database interactions
+- Everything is recorded as:
+  - Test cases
+  - Mock data
+
+Your app is now running on port **8082**
+
+---
+## Step 5: Generate some test cases by calling API endpoints
+
+Keploy records real **API calls**, so let’s make some.
+
+**Create a short URL**
+(Run in another terminal)
+```bash
+curl --request POST \
+  --url http://localhost:8082/url \
+  --header 'content-type: application/json' \
+  --data '{
+    "url": "https://google.com"
+  }'
+```
+
+Response:
+```json
+{
+  "ts": 1645540022,
+  "url": "http://localhost:8082/Lhr4BWAi"
+}
+```
+
+---
+
+**Redirect to original URL using the shortened URL**
+```bash
+curl --request GET \
+  --url http://localhost:8082/Lhr4BWAi
+```
+
+Or just open it in your browser:
+```bash
+http://localhost:8082/Lhr4BWAi
+```
+Both API calls are now captured by **Keploy**.
+
+(Check the terminal where you ran **keploy record** to see the logs)
+
+---
+
+## Step 6: Verify the recorded test cases:
+
+
+Stop the app and check your project directory.
+
+You should see a new folder:
+```bash
+keploy/
+```
+Inside it:
+- Recorded API Test cases
+- Mock Data
+- Request-Response snapshots.
+
+No test files or mocks were written by you, yet you have a full suite of test cases ready to run.
+
+---
+
+## Step-7 Run the recorded test cases
+
+
+```bash
+sudo -E PATH=$PATH keploy test -c "./echo-psql-url-shortener"
+```
+
+> Make sure the terminal running `keploy record` is stopped before running tests.
+> The record command occupies port `8082`, and if the port is already in use,
+> Keploy will not be able to start the application during `keploy test`.
+
+What happens here:
+- Replays the recorded API calls
+- Uses mocks instead of real database
+- Verifies resposes automatically
+
+You **do not need**
+- PostgreSQL running
+- Docker
+- Any test setup
+
+Your app thinks it’s talking to PostgreSQL.
+
+It’s not. Keploy is handling that.
+
+**Why this matters:**
+- **No more mocks**: You don't need to manually define every row for a database mock.
+- **Refactor with Confidence**: If you change your logic and the output changes, Keploy will catch the regression instantly.
+- **Lightweight CI**: Your CI/CD pipeline doesn't need a complex database setup to run these integration tests.
+
+
+---
+
+## Wrapping Up
+
+In this guide, you:
+- Ran a Go + Echo + PostgreSQL app
+- Integrated Keploy for API testing
+- Recorded API interactions effortlessly
+- Generated test cases automatically
+- Did all this without writing a single line of test code or setting up mocks
+
+With Keploy, you can confidently refactor your code, knowing that any regressions will be caught by the recorded tests. Plus, the lightweight nature of Keploy means you don't need a complex database setup for your CI/CD pipeline.
+
+Happy coding!
