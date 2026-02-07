@@ -24,16 +24,18 @@ const styles = {
 };
 
 export function Callout({ type = 'info', title, children }: CalloutProps) {
-    const Icon = icons[type];
-    const style = styles[type];
+  const Icon = icons[type];
 
-    return (
-        <div className={`my-6 flex gap-3 rounded-lg border p-4 ${style}`}>
-            <Icon className="h-5 w-5 shrink-0 mt-0.5" />
-            <div className="flex-1 space-y-2">
-                {title && <h5 className="font-semibold leading-none">{title}</h5>}
-                <div className="text-sm [&>p]:m-0 leading-relaxed opacity-90">{children}</div>
-            </div>
-        </div>
-    );
+  return (
+    <div className={`flex gap-4 p-5 my-6 rounded-xl border ${styles[type]}`}>
+      <div className="w-9 h-9 flex items-center justify-center rounded-lg bg-black/5 shrink-0">
+        <Icon size={18} />
+      </div>
+
+      <div className="flex-1">
+        {title && <div className="font-semibold mb-2">{title}</div>}
+        <div>{children}</div>
+      </div>
+    </div>
+  );
 }
