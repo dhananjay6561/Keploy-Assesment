@@ -2,8 +2,8 @@
 @plugin "@tailwindcss/typography";
 
 :root {
-  --background: #ffffff;
-  --foreground: #ffffff;
+  --background: #fafafa;
+  --foreground: #18181b;
 }
 
 @theme inline {
@@ -13,17 +13,90 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #ffffff;
-    --foreground: #ededed;
-  }
-}
-
 @import "highlight.js/styles/github.css";
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.7;
+}
+
+.prose {
+  max-width: 75ch;
+}
+
+.prose h1 {
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  margin-bottom: 1.5rem;
+  color: #09090b;
+}
+
+.prose h2 {
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  color: #18181b;
+}
+
+.prose p {
+  margin-bottom: 1.25rem;
+  color: #3f3f46;
+}
+
+.prose strong {
+  color: #18181b;
+  font-weight: 600;
+}
+
+.prose code {
+  background: #f4f4f5;
+  padding: 0.2em 0.4em;
+  border-radius: 0.25rem;
+  font-size: 0.9em;
+  color: #e11d48;
+}
+
+.prose pre {
+  background: #fafafa;
+  border: 1px solid #e4e4e7;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  overflow-x: auto;
+}
+
+.prose pre code {
+  background: transparent;
+  padding: 0;
+  color: #18181b;
+  font-size: 0.875rem;
+}
+
+.prose img {
+  border-radius: 0.5rem;
+  border: 1px solid #e4e4e7;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.prose blockquote {
+  border-left: 3px solid #e4e4e7;
+  padding-left: 1rem;
+  color: #52525b;
+  font-style: normal;
+}
+
+.prose ul, .prose ol {
+  margin-bottom: 1.25rem;
+}
+
+.prose li {
+  margin-bottom: 0.5rem;
+  color: #3f3f46;
+}
+
+.prose hr {
+  border-color: #e4e4e7;
+  margin: 2rem 0;
 }
