@@ -29,17 +29,20 @@ export function Sidebar() {
   }, []);
 
   return (
-    <nav className="sidebar">
-      <div className="sidebar-header">
-        <h4>On this page</h4>
+    <nav className="sticky top-[100px] h-fit">
+      <div className="mb-6 p-4 bg-[var(--card-bg)] border border-[var(--border)] rounded-xl">
+        <h4 className="m-0 text-sm font-bold">On this page</h4>
       </div>
 
-      <ul className="sidebar-links">
+      <ul className="list-none p-0 m-0">
         {headings.map((item) => (
           <li key={item.id}>
             <Link
               href={`#${item.id}`}
-              className={`sidebar-link ${activeId === item.id ? 'active' : ''} ${item.level === 3 ? 'nested' : ''}`}
+              className={`block py-2.5 px-3 text-sm opacity-70 !no-underline rounded-lg transition-all duration-200 hover:opacity-100 hover:bg-[var(--muted)] hover:!text-[var(--orange)] ${
+                activeId === item.id ? 'opacity-100 font-semibold bg-[var(--muted)]' : ''
+              } ${item.level === 3 ? 'pl-8' : ''}`}
+              style={{ color: activeId === item.id ? 'var(--orange)' : 'var(--text)' }}
               onClick={(e) => {
                 e.preventDefault();
                 document.getElementById(item.id)?.scrollIntoView({ behavior: 'smooth' });
