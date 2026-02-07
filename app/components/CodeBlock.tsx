@@ -31,7 +31,7 @@ export function CodeBlock({ children, className }: any) {
         </button>
       </div>
 
-      <pre className={`p-4 m-0 overflow-x-auto bg-[var(--muted)] text-sm ${className}`}>
+      <pre className={`mb-0 mt-0 overflow-x-auto bg-[var(--muted)] text-sm ${className}`}>
         {children}
       </pre>
     </div>
