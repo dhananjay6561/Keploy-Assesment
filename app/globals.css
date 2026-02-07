@@ -9,6 +9,8 @@
   --border: #e8ddd2;
   --card-bg: #ffffff;
   --muted: #faf7f4;
+  --callout-bg: #f6edff;
+  --callout-border: #c3aafe;
 }
 
 [data-theme="dark"] {
@@ -19,6 +21,8 @@
   --border: #3d3028;
   --card-bg: #252018;
   --muted: #2a241c;
+  --callout-bg: #2d2540;
+  --callout-border: #6b5a99;
 }
 
 * {
